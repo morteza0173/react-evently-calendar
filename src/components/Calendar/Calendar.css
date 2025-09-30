@@ -1,0 +1,112 @@
+.calendar-app {
+  width: 100%;
+  min-width: 400px;
+}
+
+.calendar {
+  width: 100%;
+}
+
+.heading {
+  font-size: clamp(2rem, 3.8cqi, 3.5rem);
+}
+
+.navigate-date {
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
+  margin: 1rem 0;
+}
+
+.navigate-date h2 {
+  font-size: clamp(1.5rem, 1.5cqi, 2.5rem);
+  color: #4b4b4b;
+}
+
+.buttons {
+  display: flex;
+  column-gap: 1rem;
+  margin-inline-start: auto;
+}
+
+.buttons button {
+  background-color: #f0f0f0;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  border-radius: 0.3rem;
+  transition: background-color 0.3s ease;
+}
+
+.buttons button:hover {
+  background-color: #dcdcdc;
+}
+
+.weekdays,
+.weekdays span,
+.days,
+.days span {
+  box-sizing: border-box;
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  border: 1px solid #ccc;
+  border-bottom: none;
+  background-color: #e4e4e4;
+}
+
+.weekdays span {
+  text-align: center;
+  padding: 0.5rem 0;
+  font-weight: bold;
+  color: #4b4b4b;
+  border-inline-end: 1px solid #ccc;
+}
+
+.weekdays span:last-child {
+  border-inline-end: none;
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  border: 1px solid #ccc;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+.days span.defaultDays {
+  text-align: start;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border-inline-end: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+}
+
+.days span:nth-child(7n) {
+  border-inline-end: none;
+}
+
+.days span:nth-last-child(-n + 7) {
+  border-bottom: none;
+}
+
+.days span.defaultDays:hover {
+  background-color: #f0f0f0;
+}
+
+.days span.current-day {
+  font-weight: bold;
+}
+
+.days span.disabled {
+  color: #aaa;
+}
