@@ -15,6 +15,32 @@ const getDate = (date: Date, calendar: "jalali" | "gregorian") => {
   }
 };
 
+interface CalendarClassNames {
+  root?: string;
+  header?: string;
+  nav?: string;
+  month?: string;
+  year?: string;
+  weekdays?: string;
+  weekday?: string;
+  days?: string;
+  day?: string;
+  currentDay?: string;
+  lastMonth?: string;
+  nextMonth?: string;
+}
+
+interface CalendarComponents {
+  PrevButton?: (props: {
+    onClick: () => void;
+    dir: "ltr" | "rtl";
+  }) => React.ReactNode;
+  NextButton?: (props: {
+    onClick: () => void;
+    dir: "ltr" | "rtl";
+  }) => React.ReactNode;
+}
+
 interface CalendarProps {
   dir?: "ltr" | "rtl";
   CalendarType?: "gregorian" | "jalali";
@@ -28,6 +54,8 @@ interface CalendarProps {
     isToday: boolean,
     onSelect: () => void
   ) => React.ReactNode;
+  classNames?: CalendarClassNames;
+  components?: CalendarComponents;
 }
 const Calendar: React.FC<CalendarProps> = ({
   dir = "ltr",
@@ -35,6 +63,8 @@ const Calendar: React.FC<CalendarProps> = ({
   firstDayOfWeek = 6,
   onChange,
   renderDay,
+  classNames,
+  components,
 }) => {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
 
@@ -79,33 +109,44 @@ const Calendar: React.FC<CalendarProps> = ({
   };
 
   return (
-    <div className="calendar-app" dir={dir}>
-      <div className="calendar">
-        <div className="navigate-date">
-          <h2 className="month">
+    <div className={`calendar-app ${classNames?.root ?? ""}`} dir={dir}>
+      <div className={`calendar ${classNames?.header ?? ""}`}>
+        <div className={`navigate-date ${classNames?.nav ?? ""}`}>
+          <h2 className={`month ${classNames?.month ?? ""}`}>
             {CalendarType === "gregorian"
               ? monthsEn[current.month()]
               : monthsFa[current.month()]}{" "}
             ،
           </h2>
-          <h2 className="year">
+          <h2 className={`year ${classNames?.year ?? ""}`}>
             {CalendarType === "gregorian" ? current.year() : current.year()}
           </h2>
           <div className="buttons">
-            <button onClick={prevMonth}>
-              {dir === "ltr" ? <ChevronLeft /> : <ChevronRight />}
-            </button>
-            <button onClick={nextMonth}>
-              {dir === "ltr" ? <ChevronRight /> : <ChevronLeft />}
-            </button>
+            {components?.PrevButton ? (
+              components.PrevButton({ onClick: prevMonth, dir })
+            ) : (
+              <button onClick={prevMonth}>
+                {dir === "ltr" ? <ChevronLeft /> : <ChevronRight />}
+              </button>
+            )}
+
+            {components?.NextButton ? (
+              components.NextButton({ onClick: nextMonth, dir })
+            ) : (
+              <button onClick={nextMonth}>
+                {dir === "ltr" ? <ChevronRight /> : <ChevronLeft />}
+              </button>
+            )}
           </div>
         </div>
-        <div className="weekdays">
+        <div className={`weekdays ${classNames?.weekdays ?? ""}`}>
           {getDaysOfWeek(CalendarType, firstDayOfWeek).map((day) => (
-            <span key={day}>{day}</span>
+            <span key={day} className={classNames?.weekday ?? ""}>
+              {day}
+            </span>
           ))}
         </div>
-        <div className="days">
+        <div className={`days ${classNames?.days ?? ""}`}>
           {prevMonthDays.map((day, i) => {
             const showMonth = i === 0;
             const prevDayDate = prevMonthDate
@@ -125,7 +166,7 @@ const Calendar: React.FC<CalendarProps> = ({
             return (
               <span
                 key={`prev-${day}`}
-                className="defaultDays disabled"
+                className={`defaultDays ${classNames?.lastMonth ?? "disabled"}`}
                 onClick={() => handleSelectDate(prevDayDate)}
               >
                 {i === 0
@@ -158,8 +199,8 @@ const Calendar: React.FC<CalendarProps> = ({
                 key={day}
                 className={
                   day + 1 === current.date()
-                    ? "current-day defaultDays"
-                    : "defaultDays"
+                    ? `${classNames?.currentDay ?? "current-day"} defaultDays`
+                    : `${classNames?.day ?? "defaultDays"}`
                 }
                 onClick={() => handleSelectDate(dayDate)}
               >
@@ -193,7 +234,7 @@ const Calendar: React.FC<CalendarProps> = ({
             return (
               <span
                 key={`next-${day}`}
-                className="defaultDays disabled"
+                className={`defaultDays ${classNames?.nextMonth ?? "disabled"}`}
                 onClick={() => handleSelectDate(nextDayDate)}
               >
                 {i === 0

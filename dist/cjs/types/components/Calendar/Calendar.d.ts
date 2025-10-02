@@ -1,5 +1,5 @@
-import React from 'react';
-
+import React from "react";
+import "./Calendar.css";
 interface CalendarClassNames {
     root?: string;
     header?: string;
@@ -34,5 +34,4 @@ interface CalendarProps {
     components?: CalendarComponents;
 }
 declare const Calendar: React.FC<CalendarProps>;
-
-export { Calendar };
+export default Calendar;
