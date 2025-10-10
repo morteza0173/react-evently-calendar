@@ -2,6 +2,7 @@
   "name": "react-evently-calendar",
   "version": "1.0.2",
   "description": "a simple React calendar library that lets you display events and customize each day individually.",
+  "homepage": "https://react-evently-calendar-docs.vercel.app/",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
